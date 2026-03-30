@@ -4,6 +4,8 @@ __pycache__/
 
 # Database
 *.db
+blog.db-shm
+blog.db-wal
 
 # Environment
 .env
