@@ -1,14 +1,16 @@
 from pydantic import BaseModel
+from typing import List
 
 
-class Blog(BaseModel):
+class BlogBase(BaseModel):
     title: str
     body: str
 
 
-class ShowBlog(Blog):
-    class config:
-        orm_mode = True
+class Blog(BlogBase):
+
+    class Config:
+        from_attributes = True
 
 
 class User(BaseModel):
@@ -20,6 +22,28 @@ class User(BaseModel):
 class ShowUser(BaseModel):
     name: str
     email: str
+    # blogs: List[Blog]
 
-    class config:
-        orm_mode = True
+    class Config:
+        from_attributes = True
+
+
+class ShowBlog(Blog):
+    creator: ShowUser
+
+    class Config:
+        from_attributes = True
+
+
+class UserWithBlogs(ShowUser):
+    blogs: List[Blog]
+
+    class Config:
+        from_attributes = True
+
+
+class BlogWithCreator(Blog):
+    creator: ShowUser
+
+    class Config:
+        from_attributes = True
